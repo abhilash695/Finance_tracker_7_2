@@ -12,6 +12,12 @@ from wordcloud import WordCloud
 
 
 
+
+
+
+
+
+
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('stopwords')
@@ -19,6 +25,11 @@ nltk.download('averaged_perceptron_tagger')
 nltk.download('maxent_ne_chunker')
 nltk.download('words')
 nltk.download('vader_lexicon')
+
+
+
+
+
 
 class NLPProcessor:
     def _init_(self, text):
@@ -34,11 +45,22 @@ class NLPProcessor:
         filtered = [word for word in self.tokens if word.lower() not in stops and word.isalnum()]
         return filtered
 
+    
     def stem_words(self):
         return [self.stemmer.stem(word) for word in self.tokens if word.isalnum()]
 
+
+    
     def lemmatize_words(self):
         return [self.lemmatizer.lemmatize(word) for word in self.tokens if word.isalnum()]
+
+
+
+
+
+
+
+
 
 
 
@@ -46,20 +68,30 @@ class NLPProcessor:
 def pos_tagging(self):
         return pos_tag(self.tokens)
 
+
+
     def sentence_tokenize(self):
         return self.sentences
 
+
+
     def named_entity_recognition(self):
         return ne_chunk(pos_tag(self.tokens))
+
+
 
     def word_frequency(self):
         filtered = self.remove_stopwords()
         return Counter(filtered).most_common(10)
 
+
+
     def generate_ngrams(self, n=2):
         tokens = self.remove_stopwords()
         ngrams = zip(*[tokens[i:] for i in range(n)])
         return list(ngrams)[:10]
+
+
 
     def sentiment_analysis(self):
         return self.sia.polarity_scores(self.text)
@@ -70,6 +102,13 @@ def pos_tagging(self):
         plt.axis('off')
         plt.title("Word Cloud")
         plt.show()
+
+
+
+
+
+
+
 
     def analyze_all(self):
         print("\n=== NLP PROCESSING ===")
@@ -85,14 +124,21 @@ def pos_tagging(self):
         print("Sentiment:", self.sentiment_analysis())
         self.generate_wordcloud()
 
+
+
 def run_nlp_demo():
 
+
+
+    
 # ai_features.py
 from textblob import TextBlob
 from gensim.summarization import keywords, summarize
 import spacy
 from collections import Counter
 import os
+
+
 
 # Load spaCy model safely
 try:
@@ -101,19 +147,27 @@ except:
     os.system("python -m spacy download en_core_web_sm")
     nlp = spacy.load("en_core_web_sm")
 
+
+
 class AIAnalyzer:
     def _init_(self, text):
         self.text = text
         self.blob = TextBlob(text)
         self.doc = nlp(text)
 
+
+    
     def get_sentiment(self):
         polarity = self.blob.sentiment.polarity
         subjectivity = self.blob.sentiment.subjectivity
         return {"polarity": polarity, "subjectivity": subjectivity}
 
+
+    
     def get_sentence_level_sentiment(self):
         return [{"sentence": str(sent), "sentiment": TextBlob(str(sent)).sentiment.polarity}
+    
+                
                 for sent in self.blob.sentences]
 
     def get_keywords(self):
@@ -123,14 +177,25 @@ class AIAnalyzer:
             return ["Not enough data to extract keywords."]
 
 
+
+
+
+
+
+
    def get_summary(self):
         try:
             return summarize(self.text, ratio=0.3)
         except:
             return "Summary not available due to short input."
 
+
+
     def named_entities(self):
         return [(ent.text, ent.label_) for ent in self.doc.ents]
+
+
+
 
     def detect_language(self):
         try:
@@ -138,15 +203,22 @@ class AIAnalyzer:
         except:
             return "Language detection failed."
 
+
+        
         def extract_topics(self):
         # Simple noun chunk frequency
         noun_chunks = [chunk.text.lower() for chunk in self.doc.noun_chunks]
         top_chunks = Counter(noun_chunks).most_common(5)
         return top_chunks
 
+
+
+
     def pos_statistics(self):
         pos_counts = Counter([token.pos_ for token in self.doc])
         return dict(pos_counts)
+
+
 
     def analyze(self):
         print("\n=== AI ANALYSIS ===")
@@ -165,6 +237,9 @@ print("\nTop Keywords:", self.get_keywords())
 
 def ai_demo():
 
+
+
+    
     from text_input import TextLoader
     loader = TextLoader("sample.txt")
     loader.read_file()
@@ -172,6 +247,11 @@ def ai_demo():
     processor = NLPProcessor(loader.cleaned_text)
     processor.analyze_all()
 
+
+
+
+
+        
 if _name_ == "_main_":
     run_nlp_demo()
 
@@ -180,13 +260,3 @@ if _name_ == "_main_":
 
 if _name_ == "_main_":
     ai_demo()
-
-
-
-
-
-
-
-
-
-
