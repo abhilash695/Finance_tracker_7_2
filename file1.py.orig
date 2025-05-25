@@ -11,9 +11,38 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
 
-
-
 <<<<<<< HEAD
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
+nltk.download('vader_lexicon')
+
+class NLPProcessor:
+    def _init_(self, text):
+        self.text = text
+        self.tokens = word_tokenize(text)
+        self.sentences = sent_tokenize(text)
+        self.stemmer = PorterStemmer()
+        self.lemmatizer = WordNetLemmatizer()
+        self.sia = SentimentIntensityAnalyzer()
+
+    def remove_stopwords(self):
+        stops = set(stopwords.words('english'))
+        filtered = [word for word in self.tokens if word.lower() not in stops and word.isalnum()]
+        return filtered
+
+    def stem_words(self):
+        return [self.stemmer.stem(word) for word in self.tokens if word.isalnum()]
+
+    def lemmatize_words(self):
+        return [self.lemmatizer.lemmatize(word) for word in self.tokens if word.isalnum()]
+=======
+
+
+
 def pos_tagging(self):
         return pos_tag(self.tokens)
 
@@ -57,7 +86,7 @@ def pos_tagging(self):
         self.generate_wordcloud()
 
 def run_nlp_demo():
-=======
+
 # ai_features.py
 from textblob import TextBlob
 from gensim.summarization import keywords, summarize
@@ -135,19 +164,17 @@ print("\nTop Keywords:", self.get_keywords())
         print("\nSummary:\n", self.get_summary())
 
 def ai_demo():
->>>>>>> c
+
     from text_input import TextLoader
     loader = TextLoader("sample.txt")
     loader.read_file()
-    loader.clean_text()
-
-<<<<<<< HEAD
+    loader.clean_text(
     processor = NLPProcessor(loader.cleaned_text)
     processor.analyze_all()
 
 if _name_ == "_main_":
     run_nlp_demo()
-=======
+
     analyzer = AIAnalyzer(loader.cleaned_text)
     analyzer.analyze()
 
@@ -157,6 +184,7 @@ if _name_ == "_main_":
 
 
 
+>>>>>>> b
 
 
->>>>>>> c
+
